@@ -1,6 +1,30 @@
 import { Album, ImageItem, PasswordVerification } from "@/types/album";
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+// When using Render deployment, ensure the API URL is correctly formatted with /api
+let API_URL = '';
+
+// Log the environment variable to help with debugging
+console.log("API URL from env:", import.meta.env.VITE_API_URL);
+
+// Handle different scenarios for API_URL
+if (import.meta.env.VITE_API_URL) {
+  // Remove trailing slash if present
+  API_URL = import.meta.env.VITE_API_URL.endsWith('/') 
+    ? import.meta.env.VITE_API_URL.slice(0, -1) 
+    : import.meta.env.VITE_API_URL;
+  
+  // For Render deployment, ensure the URL includes /api
+  if (API_URL.includes('onrender.com') && !API_URL.endsWith('/api')) {
+    // If URL doesn't end with /api but also doesn't have a path after the domain
+    if (API_URL.match(/onrender\.com\/?$/)) {
+      API_URL = `${API_URL}/api`;
+    }
+  }
+} else {
+  API_URL = '/api';
+}
+
+console.log("Final API URL:", API_URL);
 
 export const api = {
   // Albums

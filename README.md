@@ -95,16 +95,48 @@ See `backend/README.md` for detailed API documentation.
 
 ## Environment Variables
 
-For production deployment, create a `.env` file in the frontend directory with the following variables:
+For production deployment on Vercel, set the following environment variables in the Vercel project settings:
 
 ```
-# API URL - set to your deployed backend URL in production
-VITE_API_URL=https://your-backend-url.com
+# API URL - set to your Render backend URL with /api path
+VITE_API_URL=https://digital-memories-b.onrender.com/api
 
 # ImageKit.io credentials
 VITE_IMAGEKIT_PUBLIC_KEY=your_public_key_here
 VITE_IMAGEKIT_URL_ENDPOINT=your_url_endpoint_here
 ```
+
+**Important:** For Vercel deployment with Render backend:
+1. Make sure your Render backend has CORS properly configured 
+2. Set `FRONTEND_URL=https://digital-memories.vercel.app` in your Render environment variables
+3. Vercel's environment variables need to be added in the project settings dashboard
+
+## Troubleshooting CORS Issues
+
+If you experience CORS issues with your deployed application:
+
+1. **Check Backend Environment Variables**:
+   - Ensure `FRONTEND_URL` is set exactly to `https://digital-memories.vercel.app` on Render
+
+2. **Check Frontend Environment Variables**:
+   - Ensure `VITE_API_URL` is set exactly to `https://digital-memories-b.onrender.com/api` on Vercel
+
+3. **Test CORS Configuration**:
+   Visit the following test endpoints to diagnose CORS issues:
+   - `https://digital-memories-b.onrender.com/api/test/cors-test`
+   - `https://digital-memories-b.onrender.com/api/test/echo`
+   - `https://digital-memories-b.onrender.com/api/health`
+
+4. **Browser Extensions**:
+   - Temporarily disable any browser extensions that might interfere with CORS
+   - Try using a different browser or incognito mode
+
+5. **Render Settings**:
+   - Check Render's outbound rules in the web service settings
+   - Make sure automatic TLS/SSL is enabled
+
+6. **Clear Browser Cache**:
+   - Clear your browser cache and cookies before testing again
 
 ## License
 
